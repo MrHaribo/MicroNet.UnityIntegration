@@ -1,0 +1,13 @@
+﻿<#@ template language="C#" #>
+
+public enum <#= enumName #> 
+{
+	<# 
+	foreach (String enumConst in enumConstants)
+	{
+	#>
+		<#= enumConst #>,
+	<#		
+	}
+	#>
+}
