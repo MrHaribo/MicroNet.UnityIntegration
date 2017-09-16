@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2017
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroNetUnityIntegration", "MicroNetUnityIntegration.csproj", "{8C7C4829-EC6E-F63A-21A2-75EC82E2E7D3}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MicroNetUnityIntegration.Editor", "MicroNetUnityIntegration.Editor.csproj", "{337053B3-31A1-7B96-BB29-EF703C2A59E9}"
 EndProject
 Global
@@ -9,6 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8C7C4829-EC6E-F63A-21A2-75EC82E2E7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C7C4829-EC6E-F63A-21A2-75EC82E2E7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C7C4829-EC6E-F63A-21A2-75EC82E2E7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C7C4829-EC6E-F63A-21A2-75EC82E2E7D3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{337053B3-31A1-7B96-BB29-EF703C2A59E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{337053B3-31A1-7B96-BB29-EF703C2A59E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{337053B3-31A1-7B96-BB29-EF703C2A59E9}.Release|Any CPU.ActiveCfg = Release|Any CPU

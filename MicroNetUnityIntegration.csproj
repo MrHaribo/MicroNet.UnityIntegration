@@ -79,19 +79,26 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Dependencies\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Jurassic">
+      <HintPath>Assets\JurassicExample\Jurassic.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\CredentialValues.cs" />
-    <Compile Include="Assets\Event.cs" />
-    <Compile Include="Assets\MyArtifact.cs" />
-    <Compile Include="Assets\NewType.cs" />
-    <Compile Include="Assets\NewType3.cs" />
-    <Compile Include="Assets\Player.cs" />
-    <Compile Include="Assets\RefType.cs" />
-    <Compile Include="Assets\RoundInfo.cs" />
-    <Compile Include="Assets\UserConnection.cs" />
-    <Compile Include="Assets\UserValues.cs" />
-    <Compile Include="Assets\VoteResult.cs" />
+    <Compile Include="Assets\JurassicExample\JurassicExampleExecute.cs" />
+    <Compile Include="Assets\JurassicExample\JurassicExampleGUI.cs" />
+    <Compile Include="Assets\MicroNet\ScriptExecutor.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\Example JavaScripts\Input Example Axis.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Jump.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Keyboard Days.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Keyboard String.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Mouse.txt" />
+    <None Include="Assets\Example JavaScripts\Math Example Bounce.txt" />
+    <None Include="Assets\Example JavaScripts\Math Example Rain.txt" />
+    <None Include="Assets\Example JavaScripts\Mathf Example Ping-Pong.txt" />
+    <None Include="Assets\JurassicExample\License.txt" />
+    <None Include="Assets\JurassicExample\ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

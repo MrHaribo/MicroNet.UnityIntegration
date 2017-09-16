@@ -118,6 +118,15 @@
     <Reference Include="Newtonsoft.Json">
       <HintPath>Assets\Dependencies\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Jurassic">
+      <HintPath>Assets\JurassicExample\Jurassic.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="MicroNetUnityIntegration.csproj">
+      <Project>{8C7C4829-EC6E-F63A-21A2-75EC82E2E7D3}</Project>
+      <Name>MicroNetUnityIntegration</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Editor\CodeGenerator.cs" />
@@ -144,6 +153,16 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>TemplateGenerator.cs</LastGenOutput>
     </None>
+    <None Include="Assets\Example JavaScripts\Input Example Axis.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Jump.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Keyboard Days.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Keyboard String.txt" />
+    <None Include="Assets\Example JavaScripts\Input Example Mouse.txt" />
+    <None Include="Assets\Example JavaScripts\Math Example Bounce.txt" />
+    <None Include="Assets\Example JavaScripts\Math Example Rain.txt" />
+    <None Include="Assets\Example JavaScripts\Mathf Example Ping-Pong.txt" />
+    <None Include="Assets\JurassicExample\License.txt" />
+    <None Include="Assets\JurassicExample\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

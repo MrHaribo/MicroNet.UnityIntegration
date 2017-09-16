@@ -21,6 +21,8 @@ namespace ModelGeneration
         public string superCtorArgString;
         public string[] ctorArgs;
 
+        public Dictionary<string, KeyValuePair<string, string[]>> scripts = new Dictionary<string, KeyValuePair<string, string[]>>();
+
         public TemplateGenerator(string templateName, string parentName)
         {
             this.templateName = templateName;

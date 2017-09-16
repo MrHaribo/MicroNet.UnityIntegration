@@ -6,6 +6,7 @@ using ModelGeneration;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Text;
+using Jurassic;
 
 namespace AssemblyCSharpEditor
 {
@@ -20,6 +21,8 @@ namespace AssemblyCSharpEditor
             List<string> constantNames = new List<string>();
             List<string> constantTypes = new List<string>();
             List<string> constantValues = new List<string>();
+
+            var scripts = new Dictionary<string, KeyValuePair<string, string[]>>();
 
             string templateName = (string)templateObject["name"];
 
@@ -41,7 +44,14 @@ namespace AssemblyCSharpEditor
                 }
                 else
                 {
-                    if (variableTypename != null)
+                    if (variableType == "SCRIPT")
+                    {
+                        string scriptName = (string)variableTypeObject["scriptName"];
+                        List<string> scriptArgs = new List<string>(variableTypeObject["memberArgs"].Values<string>());
+                        var scriptDesc = new KeyValuePair<string, string[]>(scriptName, scriptArgs.ToArray());
+                        scripts.Add(variableName, scriptDesc);
+                    }
+                    else if (variableTypename != null)
                     {
                         fieldNames.Add(variableName);
                         fieldTypes.Add(variableTypename);
@@ -97,6 +107,7 @@ namespace AssemblyCSharpEditor
             generator.ctorArgs = ctorArgs.ToArray();
             generator.ctorArgString = ctorArgString.ToString().TrimEnd(',');
             generator.superCtorArgString = superCtorArgString.ToString().TrimEnd(',');
+            generator.scripts = scripts;
 
             var classDefintion = generator.TransformText();
 
@@ -325,7 +336,28 @@ namespace AssemblyCSharpEditor
             GenerateCodeFile("ParameterCode", classDefintion);
         }
 
-		private static void GenerateCodeFile(string name, string data)
+        [MenuItem("MicroNet/Run Script")]
+        public static void RunScript()
+        {
+            object result = ScriptExecutor.invoke("myScript", 2, 90);
+            Debug.Log("From Script :): " + Convert.ToInt32(result));
+
+            //string sharedDir = EditorPrefs.GetString("SharedDirLocation", null);
+            //String codeString = File.ReadAllText(sharedDir + "/scripts/myScript.js");
+
+            //ScriptEngine engine = new ScriptEngine();
+            //engine.SetGlobalFunction("print", new System.Action<string>(Debug.Log));
+
+
+            //engine.Execute(codeString);
+
+
+            //int result = engine.CallGlobalFunction<int>("test", 3, 5);
+
+            //Debug.Log("Script Result: " + result);
+        }
+
+        private static void GenerateCodeFile(string name, string data)
 		{
 			var outputPath = Path.Combine(Application.dataPath, name + ".cs");
 			File.WriteAllText(outputPath, data);

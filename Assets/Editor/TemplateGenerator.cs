@@ -223,11 +223,60 @@ for (int i = 0; i < fieldNames.Length; i++) {
             
             #line default
             #line hidden
-            this.Write("\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
+            this.Write("\r\n");
+            
+            #line 40 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+foreach (KeyValuePair<string, KeyValuePair<string, string[]>> script in scripts) {
+            
+            #line default
+            #line hidden
+            this.Write("\tpublic object ");
+            
+            #line 41 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(firstUpper(script.Key)));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t{\r\n\t\tget \r\n\t\t{\r\n\t\t\treturn ScriptExecutor.invoke(\"");
+            
+            #line 45 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(script.Value.Key));
+            
+            #line default
+            #line hidden
+            this.Write("\"\r\n\t\t\t\t");
+            
+            #line 46 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+ for (int i = 0; i < script.Value.Value.Length; i++) {
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t\t\t, ");
+            
+            #line 47 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(firstUpper(script.Value.Value[i])));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\t\t\t\t");
+            
+            #line 48 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t);\r\n\t\t}\r\n\t}\r\n");
+            
+            #line 52 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\r\n}\r\n\r\n\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 50 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+        #line 58 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
 
 private string firstUpper(string input) 
 {

@@ -37,13 +37,21 @@ public class <#= templateName #><# if (parentName != null) {#> : <#= parentName 
 	}
 <#}#>
 
+<#foreach (KeyValuePair<string, KeyValuePair<string, string[]>> script in scripts) {#>
+	public object <#= firstUpper(script.Key) #>
+	{
+		get 
+		{
+			return ScriptExecutor.invoke("<#=script.Value.Key#>"
+				<# for (int i = 0; i < script.Value.Value.Length; i++) {#>
+					, <#= firstUpper(script.Value.Value[i]) #>
+				<#}#>
+			);
+		}
+	}
+<#}#>
+
 }
-
-
-
-
-
-
 
 
 
