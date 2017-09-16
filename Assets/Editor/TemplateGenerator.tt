@@ -3,13 +3,31 @@
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Text" #>
 <#@ import namespace="System.Collections.Generic" #>
-<#@ import namespace="ModelGeneration" #>
+
 using System.Collections.Generic;
 using UnityEngine;
 
 public class <#= templateName #><# if (parentName != null) {#> : <#= parentName #> <#}#>
 
 {
+
+<#for (int i = 0; i < constantNames.Length; i++) {#>
+	public const <#= constantTypes[i] #> <#= constantNames[i] #> = <#= constantValues[i] #>;
+<#}#>
+
+
+<#if (ctorArgs.Length > 0 || ctorArgString.Length > 0) { #>
+	public <#= templateName #> (<#= ctorArgString #>)
+	<#if (superCtorArgString.Length > 0) {#>
+		: base(<#= superCtorArgString #>)
+	<#}#>
+	{
+	<#for (int i = 0; i < ctorArgs.Length; i++) {#>
+		this.<#=ctorArgs[i]#> = <#=ctorArgs[i]#>;
+	<#}#>
+	}
+<#}#>
+
 <#for (int i = 0; i < fieldNames.Length; i++) {#>
 	private <#= fieldTypes[i] #> <#= firstLower(fieldNames[i]) #>;
 	public <#= fieldTypes[i] #> <#= firstUpper(fieldNames[i]) #>
@@ -17,9 +35,17 @@ public class <#= templateName #><# if (parentName != null) {#> : <#= parentName 
 		get { return <#=fieldNames[i]#>; }
 		set { <#=fieldNames[i]#> = value; }
 	}
-
 <#}#>
+
 }
+
+
+
+
+
+
+
+
 
 <#+
 private string firstUpper(string input) 

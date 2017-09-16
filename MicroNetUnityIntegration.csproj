@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3B2233AF-15AF-4EDE-FFB9-97E7A7FD96E0}</ProjectGuid>
+    <ProjectGuid>{8C7C4829-EC6E-F63A-21A2-75EC82E2E7D3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AssemblyName>Assembly-CSharp</AssemblyName>
     <FileAlignment>512</FileAlignment>
@@ -82,6 +82,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CredentialValues.cs" />
+    <Compile Include="Assets\Event.cs" />
     <Compile Include="Assets\MyArtifact.cs" />
     <Compile Include="Assets\NewType.cs" />
     <Compile Include="Assets\NewType3.cs" />

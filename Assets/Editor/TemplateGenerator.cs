@@ -12,14 +12,13 @@ namespace ModelGeneration
     using System.Linq;
     using System.Text;
     using System.Collections.Generic;
-    using ModelGeneration;
     using System;
     
     /// <summary>
     /// Class to produce the template output
     /// </summary>
     
-    #line 1 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+    #line 1 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "15.0.0.0")]
     public partial class TemplateGenerator : TemplateGeneratorBase
     {
@@ -29,94 +28,206 @@ namespace ModelGeneration
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System.Collections.Generic;\r\nusing UnityEngine;\r\n\r\npublic class ");
+            this.Write("\r\nusing System.Collections.Generic;\r\nusing UnityEngine;\r\n\r\npublic class ");
             
-            #line 10 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 10 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(templateName));
             
             #line default
             #line hidden
             
-            #line 10 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 10 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
  if (parentName != null) {
             
             #line default
             #line hidden
             this.Write(" : ");
             
-            #line 10 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 10 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(parentName));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 10 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 10 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
 }
             
             #line default
             #line hidden
-            this.Write("\r\n{\r\n");
+            this.Write("\r\n{\r\n\r\n");
             
-            #line 13 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 14 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+for (int i = 0; i < constantNames.Length; i++) {
+            
+            #line default
+            #line hidden
+            this.Write("\tpublic const ");
+            
+            #line 15 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(constantTypes[i]));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 15 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(constantNames[i]));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 15 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(constantValues[i]));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n");
+            
+            #line 16 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\r\n\r\n");
+            
+            #line 19 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+if (ctorArgs.Length > 0 || ctorArgString.Length > 0) { 
+            
+            #line default
+            #line hidden
+            this.Write("\tpublic ");
+            
+            #line 20 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(templateName));
+            
+            #line default
+            #line hidden
+            this.Write(" (");
+            
+            #line 20 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ctorArgString));
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n\t");
+            
+            #line 21 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+if (superCtorArgString.Length > 0) {
+            
+            #line default
+            #line hidden
+            this.Write("\t\t: base(");
+            
+            #line 22 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(superCtorArgString));
+            
+            #line default
+            #line hidden
+            this.Write(")\r\n\t");
+            
+            #line 23 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t{\r\n\t");
+            
+            #line 25 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+for (int i = 0; i < ctorArgs.Length; i++) {
+            
+            #line default
+            #line hidden
+            this.Write("\t\tthis.");
+            
+            #line 26 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ctorArgs[i]));
+            
+            #line default
+            #line hidden
+            this.Write(" = ");
+            
+            #line 26 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ctorArgs[i]));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n\t");
+            
+            #line 27 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\t}\r\n");
+            
+            #line 29 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
+}
+            
+            #line default
+            #line hidden
+            this.Write("\r\n");
+            
+            #line 31 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
 for (int i = 0; i < fieldNames.Length; i++) {
             
             #line default
             #line hidden
             this.Write("\tprivate ");
             
-            #line 14 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 32 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldTypes[i]));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 14 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 32 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(firstLower(fieldNames[i])));
             
             #line default
             #line hidden
             this.Write(";\r\n\tpublic ");
             
-            #line 15 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 33 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldTypes[i]));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 15 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 33 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(firstUpper(fieldNames[i])));
             
             #line default
             #line hidden
             this.Write("\r\n\t{\r\n\t\tget { return ");
             
-            #line 17 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 35 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldNames[i]));
             
             #line default
             #line hidden
             this.Write("; }\r\n\t\tset { ");
             
-            #line 18 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 36 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(fieldNames[i]));
             
             #line default
             #line hidden
-            this.Write(" = value; }\r\n\t}\r\n\r\n");
+            this.Write(" = value; }\r\n\t}\r\n");
             
-            #line 21 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+            #line 38 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
 }
             
             #line default
             #line hidden
-            this.Write("}\r\n\r\n");
+            this.Write("\r\n}\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 24 "D:\Workspace\Unity\CodeGenTest\CodeGenTest\Assets\Editor\TemplateGenerator.tt"
+        #line 50 "D:\Workspace\MicroNetUnityIntegration\Assets\Editor\TemplateGenerator.tt"
 
 private string firstUpper(string input) 
 {

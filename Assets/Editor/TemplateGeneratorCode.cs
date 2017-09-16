@@ -7,16 +7,23 @@ namespace ModelGeneration
 {
     public partial class TemplateGenerator
     {
-        private string templateName;
-        private string parentName;
-        private string[] fieldNames;
-        private string[] fieldTypes;
+        public string templateName;
+        public string parentName;
 
-        public TemplateGenerator(string templateName, string parentName, string[] fieldNames, string[] fieldTypes)
+        public string[] fieldNames;
+        public string[] fieldTypes;
+
+        public string[] constantNames;
+        public string[] constantTypes;
+        public string[] constantValues;
+
+        public string ctorArgString;
+        public string superCtorArgString;
+        public string[] ctorArgs;
+
+        public TemplateGenerator(string templateName, string parentName)
         {
             this.templateName = templateName;
-            this.fieldNames = fieldNames;
-            this.fieldTypes = fieldTypes;
             this.parentName = parentName;
         }
     }

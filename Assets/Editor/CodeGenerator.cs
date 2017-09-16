@@ -5,46 +5,174 @@ using UnityEngine;
 using ModelGeneration;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace AssemblyCSharpEditor
 {
-	/// <summary>
-	/// A helper class for code generation in the editor.
-	/// </summary>
 	public class CodeGenerator
 	{
-        private static void generateModelClass(string jsonString)
+        private static void generateModelClass(JObject templateObject, Dictionary<string, JObject> allTemplates)
         {
             List<string> methods = new List<string>();
             List<string> fieldNames = new List<string>();
             List<string> fieldTypes = new List<string>();
-            List<string> ctorArgs = new List<string>();
 
-            JObject templateObject = JObject.Parse(jsonString);
+            List<string> constantNames = new List<string>();
+            List<string> constantTypes = new List<string>();
+            List<string> constantValues = new List<string>();
 
             string templateName = (string)templateObject["name"];
-            string parentName = (string)templateObject["parent"];
 
             foreach (JToken variableToken in templateObject["variables"])
             {
                 string variableName = (string)variableToken["name"];
 
                 JObject variableTypeObject = (JObject)variableToken["type"];
+                string variableType = (string)variableTypeObject["type"];
                 string variableTypename = getVariableTypename(variableTypeObject);
 
-                string variableType = (string)variableTypeObject["type"];
-
-                if (variableTypename != null)
+                if (variableToken["constVar"] != null)
                 {
-                    fieldNames.Add(variableName);
-                    fieldTypes.Add(variableTypename);
+                    string constValueString = getConstValue(variableTypeObject, variableToken["constVar"]);
+
+                    constantNames.Add(variableName);
+                    constantTypes.Add(variableTypename);
+                    constantValues.Add(constValueString);
+                }
+                else
+                {
+                    if (variableTypename != null)
+                    {
+                        fieldNames.Add(variableName);
+                        fieldTypes.Add(variableTypename);
+                    }
                 }
             }
 
-            TemplateGenerator generator = new TemplateGenerator(templateName, parentName, fieldNames.ToArray(), fieldTypes.ToArray());
+            List<JToken> parentCtorArgTokens = new List<JToken>();
+            string parentName = (string)templateObject["parent"];
+            string parentNameRef = parentName;
+            while (parentNameRef != null)
+            {
+                JObject parentObject = allTemplates[parentNameRef];
+                List<JToken> parentCtorArgs = getCtorArgs(parentObject);
+
+                parentCtorArgs.Reverse();
+                parentCtorArgTokens.AddRange(parentCtorArgs);
+
+                parentNameRef = (string)parentObject["parent"];
+            }
+            parentCtorArgTokens.Reverse();
+
+            List<JToken> ctorArgTokens = getCtorArgs(templateObject);
+
+            List<string> ctorArgs = new List<string>();
+            StringBuilder ctorArgString = new StringBuilder();
+            StringBuilder superCtorArgString = new StringBuilder();
+
+            foreach (JToken parentCtorArg in parentCtorArgTokens) 
+            {
+                string variableName = (string)parentCtorArg["name"];
+                string variableTypename = getVariableTypename((JObject)parentCtorArg["type"]);
+
+                superCtorArgString.AppendFormat("{0},", variableName);
+                ctorArgString.AppendFormat("{0} {1},", variableTypename, variableName);
+            }
+
+            foreach (JToken parentCtorArg in ctorArgTokens)
+            {
+                string variableName = (string)parentCtorArg["name"];
+                string variableTypename = getVariableTypename((JObject)parentCtorArg["type"]);
+
+                ctorArgs.Add(variableName);
+                ctorArgString.AppendFormat("{0} {1},", variableTypename, variableName);
+            }
+
+            TemplateGenerator generator = new TemplateGenerator(templateName, parentName);
+            generator.fieldNames = fieldNames.ToArray();
+            generator.fieldTypes = fieldTypes.ToArray();
+            generator.constantNames = constantNames.ToArray();
+            generator.constantTypes = constantTypes.ToArray();
+            generator.constantValues = constantValues.ToArray();
+            generator.ctorArgs = ctorArgs.ToArray();
+            generator.ctorArgString = ctorArgString.ToString().TrimEnd(',');
+            generator.superCtorArgString = superCtorArgString.ToString().TrimEnd(',');
+
             var classDefintion = generator.TransformText();
 
             GenerateCodeFile(templateName, classDefintion);
+        }
+
+        private static List<JToken> getCtorArgs(JObject templateObject)
+        {
+            List<JToken> ctorArgs = new List<JToken>();
+            foreach (JToken variableToken in templateObject["variables"])
+            {
+                if (variableToken["constVar"] != null)
+                    continue;
+                
+                if (variableToken["ctorArg"] == null || !variableToken["ctorArg"].Value<bool>())
+                    continue;
+
+                JObject variableTypeObject = (JObject)variableToken["type"];
+                string variableTypename = getVariableTypename(variableTypeObject);
+
+                if (variableTypename != null)
+                    ctorArgs.Add(variableToken);
+            }
+            return ctorArgs;
+        }
+
+        private static string getConstValue(JObject variableTypeObject, JToken valueObj)
+        {
+            string variableType = (string)variableTypeObject["type"];
+            switch (variableType)
+            {
+                case "STRING":
+                    return String.Format("\"{0}\"", valueObj.Value<string>());
+                case "NUMBER":
+                    string numberType = (string)variableTypeObject["numberType"];
+                    switch (numberType)
+                    {
+                        case "BYTE":
+                            return valueObj.Value<byte>().ToString();
+                        case "SHORT":
+                            return valueObj.Value<short>().ToString();
+                        case "INT":
+                            return valueObj.Value<int>().ToString();
+                        case "LONG":
+                            return valueObj.Value<long>().ToString();
+                        case "FLOAT":
+                            return valueObj.Value<float>().ToString();
+                        case "DOUBLE":
+                            return valueObj.Value<double>().ToString();
+                    }
+                    return null;
+                case "BOOLEAN":
+                    return valueObj.Value<bool>().ToString();
+                case "CHAR":
+                    return String.Format("'{0}'", valueObj.Value<char>().ToString());
+                case "ENUM":
+                    return valueObj.Value<string>();
+                case "LIST":
+                case "SET":
+                case "MAP":
+                case "COMPONENT":
+                case "SCRIPT":
+                    return null;
+                case "GEOMETRY":
+                    string geometryType = (string)variableTypeObject["geometryType"];
+                    switch (geometryType)
+                    {
+                        case "VECTOR3":
+                            return "Vector3";
+                        case "VECTOR2":
+                            return "Vector2";
+                    }
+                    return null;
+                default:
+                    return null;
+            }
         }
 
         private static string getVariableTypename(JObject variableTypeObject)
@@ -124,20 +252,52 @@ namespace AssemblyCSharpEditor
                 return;
             }
 
+            Dictionary<string, JObject> allTemplates = new Dictionary<string, JObject>();
+
             DirectoryInfo templateDir = new DirectoryInfo(sharedDir + "/model/templates");
             foreach (FileInfo file in templateDir.GetFiles())
             {
                 String jsonString = File.ReadAllText(file.FullName);
-                generateModelClass(jsonString);
+
+                JObject templateObject = JObject.Parse(jsonString);
+                string templateName = (string)templateObject["name"];
+
+                allTemplates.Add(templateName, templateObject);
             }
+
+            foreach (KeyValuePair<string, JObject> template in allTemplates)
+            {
+                generateModelClass(template.Value, allTemplates);
+            }
+
         }
 
-        [MenuItem("MicroNet/Generate Enum")]
+        [MenuItem("MicroNet/Generate Enums")]
         public static void GenerateEnum()
         {
-            EnumGenerator generator = new EnumGenerator("MyEnum", new string[] { "Hans", "Ruedi" });
-            var classDefintion = generator.TransformText();
-            GenerateCodeFile("MyEnum", classDefintion);
+            string sharedDir = EditorPrefs.GetString("SharedDirLocation", null);
+            if (sharedDir == null)
+            {
+                Debug.Log("SharedDir Location not specified");
+                return;
+            }
+
+            DirectoryInfo enumDir = new DirectoryInfo(sharedDir + "/model/enums");
+            foreach (FileInfo file in enumDir.GetFiles())
+            {
+                String jsonString = File.ReadAllText(file.FullName);
+                JObject enumDescription = JObject.Parse(jsonString);
+                string enumName = (string)enumDescription["name"];
+                JArray enumEntryArray = (JArray)enumDescription["variables"];
+
+                List<string> enumEntries = new List<string>();
+                foreach (JToken entry in enumEntryArray)
+                    enumEntries.Add(entry.Value<string>());
+
+                EnumGenerator generator = new EnumGenerator(enumName, enumEntries.ToArray());
+                var classDefintion = generator.TransformText();
+                GenerateCodeFile(enumName, classDefintion);
+            }
         }
 
         [MenuItem("MicroNet/Generate ParameterCodes")]
